@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # set work directory
-WORKDIR /myapplications
+WORKDIR /myapplications/api
 COPY . .
 
 # install dependencies
@@ -40,4 +40,7 @@ COPY . .
 EXPOSE 8000
 
 # Command to run the app
-CMD ["uvicorn", "myapplications.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENV PYTHONPATH=/api
+
+# Run FastAPI (your main.py is inside the build context)
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
